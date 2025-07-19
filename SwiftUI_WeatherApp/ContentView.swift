@@ -11,6 +11,17 @@ struct ContentView: View {
                     .font(.system(size:32, weight: .medium, design: .default))
                     .foregroundStyle(.white)
                     .padding()
+                VStack(spacing: 8) {
+                    Image(systemName: "cloud.sun.fill")
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 180, height: 180)
+                    
+                    Text("22°")
+                        .font(.system(size: 70, weight: .medium))
+                        .foregroundStyle(.white)
+                }
                 Spacer()
             }
         }
