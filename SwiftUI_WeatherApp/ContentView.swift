@@ -3,26 +3,11 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         ZStack {
-            LinearGradient(colors: [.blue, .white], startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea(.all)
+            BackgroundView(topColer: .blue, bottomColor: Color("lightBlue"))
             
             VStack {
-                Text("Moscow, RU")
-                    .font(.system(size:32, weight: .medium, design: .default))
-                    .foregroundStyle(.white)
-                    .padding()
-                VStack(spacing: 8) {
-                    Image(systemName: "cloud.sun.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 180, height: 180)
-                    
-                    Text("22°")
-                        .font(.system(size: 70, weight: .medium))
-                        .foregroundStyle(.white)
-                }
-                Spacer()
+                CityTextView(cityName: "Moscow, Ru")
+                MainWeatherStatus(wheatherSign: "cloud.sun.fill", temprature: 22)
                 HStack(){
                     WeatherOfDay(DaysOfWeek: "MUN", NameOfImage: "cloud.sun.fill", temprature: 24)
                     WeatherOfDay(DaysOfWeek: "TUE", NameOfImage: "sun.max.fill", temprature: 28)
@@ -33,6 +18,14 @@ struct ContentView: View {
 
                 }
                 
+                Spacer()
+                
+                Button {
+                    print("tapped")
+                } label: {
+                    WeatherButton(title: "Change Day Time!",
+                                  buttonColor: .white, textColor: .blue)
+                }
                 Spacer()
             }
         }
@@ -69,5 +62,59 @@ struct WeatherOfDay: View {
                     .foregroundStyle(.white)
             }
         }
+    }
+}
+
+struct BackgroundView : View {
+    var topColer : Color
+    var bottomColor : Color
+    var body : some View {
+        LinearGradient(colors: [topColer, bottomColor], startPoint: .topLeading, endPoint: .bottomTrailing)
+            .ignoresSafeArea(.all)
+    }
+}
+
+struct CityTextView: View {
+    var cityName : String
+    var body: some View {
+        Text(cityName)
+            .font(.system(size:32, weight: .medium, design: .default))
+            .foregroundStyle(.white)
+            .padding()
+    }
+}
+
+struct MainWeatherStatus: View {
+    var wheatherSign : String
+    var temprature : Int
+    var body: some View {
+        VStack(spacing: 8) {
+            Image(systemName: wheatherSign)
+                .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 180, height: 180)
+            
+            Text("\(temprature)°")
+                .font(.system(size: 70, weight: .medium))
+                .foregroundStyle(.white)
+        }
+        .padding(.bottom, 40)
+    }
+}
+
+
+struct WeatherButton : View {
+    var title : String
+    var buttonColor: Color
+    var textColor : Color
+    
+    var body: some View {
+        Text(title)
+            .frame(width: 280, height: 50)
+            .background(buttonColor)
+            .foregroundColor(textColor)
+            .font(.system(size: 20, weight: .bold, design: .default))
+            .cornerRadius(30)
     }
 }
