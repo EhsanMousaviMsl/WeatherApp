@@ -4,6 +4,14 @@ struct ContentView: View {
     
     @State private var isNight = false
     
+    private let dailyForcast : [DailyWeather] = [
+        DailyWeather(day: "TUE", icon: "cloud.sun.fill", temprature: 24),
+        DailyWeather(day: "WEN", icon: "sun.max.fill", temprature: 28),
+        DailyWeather(day: "THU", icon: "cloud.rain.fill", temprature: 20),
+        DailyWeather(day: "FRI", icon: "cloud.rain.fill", temprature: 12),
+        DailyWeather(day: "SAT", icon: "cloud.snow.fill", temprature: 1)
+     ]
+    
     var body: some View {
         ZStack {
             BackgroundView(topColer: isNight ? .black : .blue,
@@ -13,11 +21,10 @@ struct ContentView: View {
                 CityTextView(cityName: "Moscow, Ru")
                 MainWeatherStatus(wheatherSign: isNight ? "moon.fill" : "cloud.sun.fill", temprature: isNight ? 18 : 22)
                 HStack(){
-                    WeatherOfDay(DaysOfWeek: "MUN", NameOfImage: "cloud.sun.fill", temprature: 24)
-                    WeatherOfDay(DaysOfWeek: "TUE", NameOfImage: "sun.max.fill", temprature: 28)
-                    WeatherOfDay(DaysOfWeek: "WEN", NameOfImage: "cloud.rain.fill", temprature: 20)
-                    WeatherOfDay(DaysOfWeek: "THU", NameOfImage: "cloud.rain.fill", temprature: 19)
-                    WeatherOfDay(DaysOfWeek: "FRI", NameOfImage: "cloud.snow.fill", temprature: 1)
+                    ForEach(dailyForcast, id: \.day) { day in
+                        WeatherOfDay(DaysOfWeek: day.day, NameOfImage: day.icon, temprature: day.temprature)
+                        
+                    }
 
 
                 }
@@ -121,4 +128,10 @@ struct WeatherButton : View {
             .font(.system(size: 20, weight: .bold, design: .default))
             .cornerRadius(30)
     }
+}
+
+struct DailyWeather {
+    var day : String
+    var icon : String
+    var temprature : Int
 }
